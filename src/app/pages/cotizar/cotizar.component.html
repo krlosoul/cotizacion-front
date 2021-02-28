@@ -1,0 +1,150 @@
+<div class="container">
+  <div class="card bg-dark text-white">
+    <div class="card-img backgroundFilterImage">
+      <div class="row"><br><br></div>
+      <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-3"></div>
+        <div class="col-lg-6 col-md-6 col-sm-6">
+          <div class=row>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group" align="left">
+                <label>Nombre completo</label>
+                <input type="text" maxlength="180" class="form-control"
+                  [ngClass]="{'is-invalid': error.cli_nombrecompleto.error === true}"
+                  [(ngModel)]="Cliente.cli_nombrecompleto"
+                  appRestrictInput="words" />
+                <div *ngIf="error.cli_nombrecompleto.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.cli_nombrecompleto.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class=row>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group" align="left">
+                <label>Correo</label>
+                <input type="text" maxlength="45" class="form-control"
+                  [ngClass]="{'is-invalid': error.cli_correo.error === true}" [(ngModel)]="Cliente.cli_correo" />
+                <div *ngIf="error.cli_correo.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.cli_correo.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group" align="left">
+                <label>Celular</label>
+                <input type="text" maxlength="10" class="form-control"
+                  [ngClass]="{'is-invalid': error.cli_celular.error === true}" [(ngModel)]="Cliente.cli_celular" 
+                  appRestrictInput="integer" />
+                <div *ngIf="error.cli_celular.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.cli_celular.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group" align="left">
+                <label>Departamento</label>
+                <select class="form-control" [(ngModel)]="Otros.dep_codigo" (change)="onChangeDepartamentos($event)">
+                  <option [ngValue]="0">Seleccione una Opción</option>
+                  <option *ngFor="let item of Departamentos" [value]="item.dep_codigo">{{ item.dep_nombre }}</option>
+                </select>
+                <div *ngIf="error.dep_codigo.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.dep_codigo.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-6">
+              <div class="form-group" align="left">
+                <label>Municipio</label>
+                <select class="form-control" [(ngModel)]="Cotizacion.mun_codigo">
+                  <option [ngValue]="0">Seleccione una Opción</option>
+                  <option *ngFor="let item of Municipios" [ngValue]="item.mun_codigo">{{ item.mun_nombre }}</option>
+                </select>
+                <div *ngIf="error.mun_codigo.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.mun_codigo.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group" align="left">
+                <label >Modelo</label>
+                <select class="form-control" [(ngModel)]="Cotizacion.api_modelo">
+                  <option value="" selected>Seleccione una Opción</option>
+                  <option *ngFor="let item of Modelos" [value]="item.subtitle">{{ item.subtitle }}</option>
+                </select>
+                <div *ngIf="error.api_modelo.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.api_modelo.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div class="form-group" align="left">
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="customCheck" [(ngModel)]="Otros.politica">
+                  <label class="custom-control-label" for="customCheck">Autorizo el tratamiento de mis datos personales
+                    conforme a la </label>
+                  <a href="javascript:void(0)" (click)="politica()"> política de manejo de información</a>
+                </div>
+                <div *ngIf="error.politica.error === true">
+                  <small class="text-danger bg-dark">
+                    {{ error.politica.mensaje }}
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12" align="center">
+              <hr>
+              <button class="btn btn-lg btn-primary" (click)="enviar()">Enviar</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal de la política de tratamiento de datos -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModal" aria-hidden="true"
+  data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog" role="document" style="max-width: 60%;">
+    <div class="modal-content" style="padding: 20px;">
+      <div class="modal-header">
+        <h3 class="modal-title" style="margin-bottom: 0; margin: auto; text-align: center; font-weight: 700;">
+          AUTORIZACIÓN DE TRATAMIENTO DE DATOS PERSONALES
+        </h3>
+      </div>
+      <div class="modal-body" style="height: 70vh; width: 100%; overflow-y: auto;">
+        <p style="text-align: center;"><strong>POLÍTICAS Y PROCEDIMIENTOS PARA EL TRATAMIENTO DE DATOS PERSONALES</strong></p>
+        <p style="text-align: center;"><strong>Ley 1581 de 2012 &ndash; Decreto 1377 de 2013</strong></p>
+        <p style="text-align: left;"><strong>1. OBJETIVO</strong>. - En este documento se definen las políticas y procedimientos para el tratamiento de datos personales, teniendo por objeto garantizar el derecho constitucional que tienen todas las personas a conocer, actualizar y rectificar la información que se haya recogido sobre ellas en bases de datos o archivos, así como el derecho a la información consagrado y desarrollado por la Ley 1581 de 2012.</p>
+        <p style="text-align: left;"><strong>2. Responsable del tratamiento de datos personales</strong>&nbsp;</p>
+        <p style="text-align: left;"><strong>3. &Aacute;mbito de aplicación.</strong></p>
+        <p style="text-align: center;"><strong>...</strong></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div> 
